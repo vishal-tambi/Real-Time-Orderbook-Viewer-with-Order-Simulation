@@ -1,36 +1,196 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Real-Time Orderbook Viewer
 
-## Getting Started
+A Next.js application that displays real-time orderbook data from multiple cryptocurrency exchanges (OKX, Bybit, Deribit) with order simulation capabilities.
 
-First, run the development server:
+## 🚀 Features
+
+- **Real-time Orderbook Display**: Live data from OKX, Bybit, and Deribit
+- **Order Simulation**: Simulate orders and see their market impact
+- **Market Depth Charts**: Visual representation of orderbook depth
+- **Multi-Exchange Support**: Switch between exchanges seamlessly
+- **Responsive Design**: Works on desktop and mobile
+- **WebSocket Connections**: Real-time updates with fallback to REST APIs
+- **Order Impact Analysis**: Calculate slippage, market impact, and fill estimates
+
+## 📦 Quick Setup
+
+### 1. Create Project
+
+```bash
+# Create Next.js project
+npx create-next-app@latest orderbook-viewer --typescript --tailwind --eslint --app
+cd orderbook-viewer
+
+# Install dependencies
+npm install zustand recharts react-hook-form zod @hookform/resolvers lucide-react clsx class-variance-authority
+```
+
+### 2. Project Structure
+
+Create the following folder structure:
+
+```
+src/
+├── app/
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── api/orderbook/route.ts
+├── components/
+│   ├── ui/
+│   ├── orderbook/
+│   ├── forms/
+│   └── layout/
+├── lib/
+├── store/
+└── types/
+```
+
+### 3. Copy Code Files
+
+Copy all the provided code files into their respective locations according to the file structure above.
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000` to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### WebSocket Endpoints
 
-## Learn More
+The application connects to the following WebSocket endpoints:
 
-To learn more about Next.js, take a look at the following resources:
+- **OKX**: `wss://ws.okx.com:8443/ws/v5/public`
+- **Bybit**: `wss://stream.bybit.com/v5/public/linear`
+- **Deribit**: `wss://www.deribit.com/ws/api/v2`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Supported Symbols
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Popular trading pairs are supported:
+- BTC-USDT, ETH-USDT (OKX, Bybit)
+- BTC-USD, ETH-USD (Deribit)
+- SOL-USDT, DOGE-USDT
 
-## Deploy on Vercel
+## 🎯 Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 1. Select Exchange and Symbol
+- Choose from OKX, Bybit, or Deribit
+- Enter a trading pair (e.g., BTC-USDT)
+- Connection status is shown with indicators
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 2. View Real-time Orderbook
+- See live bid/ask levels with quantities
+- Color-coded price levels (green for bids, red for asks)
+- Spread and mid-price information
+
+### 3. Simulate Orders
+- Fill out the order form with:
+  - Exchange and symbol
+  - Buy/Sell side
+  - Market/Limit order type
+  - Price and quantity
+  - Timing delay
+- View order impact analysis:
+  - Estimated fill percentage
+  - Average fill price
+  - Slippage calculation
+  - Market impact assessment
+
+### 4. Analyze Market Depth
+- Visual depth chart showing cumulative liquidity
+- Bid/ask volume distribution
+- Market structure visualization
+
+## 🔍 Key Components
+
+### OrderbookTable
+- Displays real-time orderbook data
+- Shows 15 levels of bids and asks
+- Highlights simulated order positions
+- Responsive design with proper formatting
+
+### OrderForm
+- Order simulation form with validation
+- Real-time impact calculations
+- Market/limit order support
+- Warning system for high-impact orders
+
+### MarketDepthChart
+- Interactive depth visualization
+- Cumulative volume display
+- Real-time updates
+
+### WebSocket Manager
+- Handles multiple exchange connections
+- Auto-reconnection logic
+- Message parsing and normalization
+- Error handling and fallbacks
+
+## 📊 Order Impact Calculations
+
+The application calculates several metrics for order simulation:
+
+- **Fill Percentage**: How much of the order can be filled
+- **Average Fill Price**: Weighted average execution price
+- **Slippage**: Price deviation from best available price
+- **Market Impact**: Percentage of orderbook depth consumed
+- **Total Cost**: Complete order execution cost
+
+## 🛠️ Technical Details
+
+### State Management
+- Zustand for global state management
+- Real-time orderbook updates
+- Simulated order tracking
+
+### WebSocket Handling
+- Exchange-specific message parsing
+- Connection status tracking
+- Automatic reconnection
+- Graceful degradation to REST APIs
+
+### Performance Optimizations
+- Efficient re-rendering with React.memo
+- Debounced update calculations
+- Optimized chart rendering
+- Memory-efficient WebSocket management
+
+## 🚨 Error Handling
+
+- Connection failure recovery
+- API rate limiting handling
+- Invalid symbol/exchange handling
+- Network interruption management
+- User-friendly error messages
+
+## 🔮 Future Enhancements
+
+- [ ] Historical orderbook data
+- [ ] Advanced order types (Stop, OCO)
+- [ ] Portfolio simulation
+- [ ] Trade execution APIs
+- [ ] Mobile app version
+- [ ] Advanced charting tools
+
+## 📝 Notes
+
+- This is a simulation tool for educational purposes
+- No real orders are placed
+- WebSocket connections are free tier (rate limited)
+- All calculations are estimates based on current market data
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## 📄 License
+
+MIT License - see LICENSE file for details
