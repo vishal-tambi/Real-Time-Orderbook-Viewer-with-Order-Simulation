@@ -31,5 +31,6 @@ export interface BadgeProps
 export function Badge({ className, variant, ...props }: BadgeProps) {
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <h3>This is some of the changes that i am trying</h3>
   );
 }  
